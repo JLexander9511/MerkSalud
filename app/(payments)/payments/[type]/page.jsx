@@ -51,7 +51,7 @@ export default function Page( { params } ) {
                 className='me-4'
             />
             <div>
-              <p className='mb-4 text-xl' style={{color:'rgb(108, 109, 109)'}}>"Bienvenido(a) a nuestra familia Merksalud, este puede ser el comienzo de algo grande en tu vida".</p>
+              <p className='mb-4 text-xl' style={{color:'rgb(108, 109, 109)'}}>`&ldquo;`Bienvenido(a) a nuestra familia Merksalud, este puede ser el comienzo de algo grande en tu vida`&rdquo;`.</p>
               <span style={{color:'rgb(108, 109, 109)'}}> <strong>Juan Carlos Contreras</strong>, Ceo.</span>
             </div>
           </div>

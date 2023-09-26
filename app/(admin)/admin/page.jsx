@@ -7,6 +7,7 @@ import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/lib/integration/react';
 import { persistor, store } from '@/store/store';
 import AdminLForm from './components/AdminLForm';
+import { BallBeat } from 'react-pure-loaders';
 
 
 function Page() {
@@ -26,7 +27,7 @@ function Page() {
                   <h1 className='mt-4 font-bold text-2xl'>Acceso de administrador</h1>
 
                   <Provider store={store}>
-                    <PersistGate loading={null} persistor={persistor}>
+                    <PersistGate loading={<BallBeat color={'#123abc'} loading={true}/>} persistor={persistor}>
                       <AdminLForm/>
                     </PersistGate>
                   </Provider>

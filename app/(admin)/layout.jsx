@@ -1,5 +1,6 @@
 import { Montserrat, Source_Sans_3 } from 'next/font/google'
 import './adminStyles.css'
+import WithState from '../validators/WithState'
 
 
 export const metadata = {
@@ -19,9 +20,9 @@ export default function RootLayout({ children }) {
 
     return (
         <html lang="en">
-          <body className={sSans.className}>        
-              {children}
-          </body>
+            <body className={sSans.className}>           
+                  {children}          
+            </body>
         </html>
       )
   }

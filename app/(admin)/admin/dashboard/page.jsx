@@ -1,8 +1,16 @@
 
- function Page() {
+import WithState from "@/app/validators/WithState";
+import NavBar from "./components/NavBar";
+
+ function AdminDashboard() {
+  
   return (
-    <div>ADMIN DASHBOARD</div>
+    <WithState>
+      <main>
+        <NavBar/>
+      </main>
+    </WithState>
   )
 }
 
-export default Page
+export default AdminDashboard

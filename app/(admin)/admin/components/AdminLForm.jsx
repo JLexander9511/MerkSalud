@@ -1,6 +1,6 @@
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { startLoginWithEmailPassword } from '@/store/auth';
@@ -13,7 +13,7 @@ function AdminLForm() {
     const router = useRouter();
 
     const {errorMessage, status} = useSelector((state) => state.auth)
-  
+    const isAuthenticating = useMemo( () => status === 'checking', [status])
 
   
   const errorMsgHandle = {
@@ -66,7 +66,10 @@ function AdminLForm() {
             style={{width: '125%'}}/>
         {errors.password?.type === 'required' && <p className='text-red-600 font-medium mt-2'>Ingrese la contraseña</p>}
 
-        <button type='submit' className='mt-8 w-full p-4 bg-green-500 rounded-xl text-white font-bold text-xl'>
+        <button 
+          type='submit' 
+          className='mt-8 w-full p-4 bg-green-500 rounded-xl text-white font-bold text-xl disabled:bg-slate-500'
+          disabled={ isAuthenticating }>
             Entrar
         </button>
 

@@ -6,6 +6,7 @@ import { useScreenSize } from '@/hooks';
 import { Provider } from 'react-redux';
 import { persistor, store } from '@/store/store';
 import { PersistGate } from 'redux-persist/integration/react';
+import { BallBeat } from 'react-pure-loaders';
 
 function Navbar() {
 
@@ -13,7 +14,7 @@ function Navbar() {
 
   return (
      <Provider store={store}>
-       <PersistGate loading={null} persistor={persistor}>
+       <PersistGate loading={<BallBeat color={'#123abc'} loading={true}/>} persistor={persistor}>
         <nav 
           className={`${(screenType == 'Desktop') ? 'py-6 px-4 flex justify-between items-center' : 'p-4 flex justify-between items-center'}`}
           style={{minWidth: (screenType == 'Desktop') ? '1300px' : '90%', maxWidth: (screenType == 'Desktop') ? '1550px' : '90%'}}>

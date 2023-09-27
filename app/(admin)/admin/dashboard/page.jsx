@@ -1,15 +1,13 @@
-
-import WithState from "@/app/validators/WithState";
 import NavBar from "./components/NavBar";
+import AsideMenu from "./components/AsideMenu";
 
  function AdminDashboard() {
   
   return (
-    <WithState>
-      <main>
-        <NavBar/>
-      </main>
-    </WithState>
+    <section 
+      className="bg-white rounded-md p-2">
+      Vision general
+    </section>
   )
 }
 

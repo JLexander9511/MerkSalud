@@ -34,7 +34,7 @@ function AdminLForm() {
 
     if(status == 'authenticated'){
         setTimeout(() => {
-            router.push('/admin/dashboard')
+            router.push('/admin/dashboard/')
         }, 5000);
         toast.success("Autenticado con exito", {
             position: toast.POSITION.TOP_CENTER

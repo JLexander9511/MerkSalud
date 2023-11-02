@@ -1,13 +1,26 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Cards from "./components/Cards"
 import Requests from "./components/Requests"
 import Users from "./components/Users"
+import { useDispatch, useSelector } from "react-redux";
+import { getAllCards, getAllUsers, getUserRequests } from "@/store/app";
+import AddUsers from "./components/AddUsers";
+
 
 function Usuarios() {
 
   const [component, setComponent] = useState(<Requests />);
+  const dispatch = useDispatch();
+
+  const {requests, users, cards} = useSelector( state => state.app )
+
+useEffect(() => {
+  (requests.length == 0 || !requests.length) && dispatch(getUserRequests());
+  (users.length == 0 || !users.length) && dispatch(getAllUsers());
+  (cards.length == 0 || !cards.length) && dispatch(getAllCards());
+}, [])
 
   const selectComponent = (nombre) => {
     switch (nombre) {
@@ -21,6 +34,10 @@ function Usuarios() {
 
       case 'Cards':
       setComponent(<Cards />);
+      break;
+
+      case 'AddUser':
+      setComponent(<AddUsers />);
       break;
 
       default:
@@ -51,9 +68,17 @@ function Usuarios() {
           onClick={() => selectComponent('Cards')}>
           Gestionar tarjetas Merksalud
         </button>
+
+        <button 
+          className="solidBtnB p-4 text-white font-medium rounded-md ms-4" 
+          style={{backgroundColor:'rgb(65,93,153)'}}
+          onClick={() => selectComponent('AddUser')}>
+          Agregar usuario
+        </button>
+
       </div>
-      <div>
-        {component}
+      <div className="flex items-center" style={{height:'85%'}}>
+            {component}
       </div>
     </section>
   )

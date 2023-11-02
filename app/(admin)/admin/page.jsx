@@ -8,6 +8,7 @@ import { PersistGate } from 'redux-persist/lib/integration/react';
 import { persistor, store } from '@/store/store';
 import AdminLForm from './components/AdminLForm';
 import { BallBeat } from 'react-pure-loaders';
+import WithState from '@/app/validators/WithState';
 
 
 function Page() {
@@ -26,11 +27,9 @@ function Page() {
                   
                   <h1 className='mt-4 font-bold text-2xl'>Acceso de administrador</h1>
 
-                  <Provider store={store}>
-                    <PersistGate loading={<BallBeat color={'#123abc'} loading={true}/>} persistor={persistor}>
-                      <AdminLForm/>
-                    </PersistGate>
-                  </Provider>
+                  <WithState loader={<BallBeat color={'#123abc'} loading={true}/>}>
+                    <AdminLForm/>
+                  </WithState>
 
               </div>
 

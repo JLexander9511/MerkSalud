@@ -6,3 +6,7 @@ body{
     background-color: rgb(0, 79, 122);
     background-image: url("https://d1yei2z3i6k35z.cloudfront.net/systeme-common/62ab40dd31f45_background.png");
 }
+
+.MuiPaper-root{
+    height: 100% !important;
+}

@@ -25,6 +25,26 @@ export const loginWithEmailPassword = async ({ email: correo, password }) => {
     
 }
 
+export const registerUserWithEmailPassword = async ({displayName, email, password}) => {
+    try {
+        const resp = await createUserWithEmailAndPassword(FirebaseAuth, email, password)
+        const { uid, photoURL } = resp.user
+
+        updateProfile(FirebaseAuth.currentUser,{ displayName })
+        
+        return{
+            ok: true,
+            uid, photoURL, email, displayName
+        }
+        
+    } catch (error) {
+        return {
+            ok: false,
+            errorMessage: error.message
+        }
+    }
+}
+
 export const logoutFirebase = async () => {
     return await FirebaseAuth.signOut() 
 }

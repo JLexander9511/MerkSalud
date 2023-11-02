@@ -53,23 +53,30 @@ export default function Page() {
             <CardOptions
               image = 'https://d1yei2z3i6k35z.cloudfront.net/4358935/649dcfed1d379_TarjetadeDescuentoMerkSalud.png'
               cardName = 'Tarjeta Green'
-              benefits = { ['Descuentos en servicios médicos, estudios de laboratorio, clínicas, farmacias y más.'] }
+              benefits = { ['Descuentos en servicios médicos, estudios de laboratorio, clínicas, farmacias y más.', 'Reciben un 20% de comisión por cada tarjeta adquirida por sus referidos.'] }
               precio = { 10 }
-              href='/payments/green'/>
+              href='/payments?t=green'/>
 
             <CardOptions
               image = 'https://d1yei2z3i6k35z.cloudfront.net/4358935/649dd00f3d3d5_TarjetadeDescuentoMerkSalud1.png'
               cardName = 'Tarjeta Blue'
-              benefits = { ['Descuentos en servicios médicos, estudios de laboratorio, clínicas, farmacias y más.', 'Telemedicina.', 'Gastos por muerte accidental por $3.000.', 'Gastos médicos por accidente por $900.', 'Gastos funerarios por accidente o muerte natural hasta los 75 años por $1500.'] }
+              benefits = { ['Descuentos en servicios médicos, estudios de laboratorio, clínicas, farmacias y más.', 'Telemedicina.', 'Gastos por muerte accidental por $3.000.', 'Gastos médicos por accidente por $900.', 'Gastos funerarios por accidente o muerte natural hasta los 75 años por $1500.','Reciben un 20% de comisión por cada tarjeta adquirida por sus referidos.'] }
               precio = { 60 }
-              href='/payments/blue'/>
+              href='/payments?t=blue'/>
 
             <CardOptions
               image = 'https://d1yei2z3i6k35z.cloudfront.net/4358935/649dd03c2f161_TarjetadeDescuentoMerkSalud2.png'
               cardName = 'Tarjeta Black'
-              benefits = { ['Descuentos en servicios médicos, estudios de laboratorio, clínicas, farmacias y más.', 'Telemedicina.', 'Gastos por muerte accidental por $4.000.', 'Gastos médicos por accidente por $1200.', 'Gastos funerarios por accidente o muerte natural hasta los 75 años por $2000.' ] }
+              benefits = { ['Descuentos en servicios médicos, estudios de laboratorio, clínicas, farmacias y más.', 'Telemedicina.', 'Gastos por muerte accidental por $4.000.', 'Gastos médicos por accidente por $1200.', 'Gastos funerarios por accidente o muerte natural hasta los 75 años por $2000.', 'Reciben un 20% de comisión por cada tarjeta adquirida por sus referidos.' ] }
               precio = { 70 }
-              href='/payments/black'/>
+              href='/payments?t=black'/>
+
+            <CardOptions
+              image = 'https://res.cloudinary.com/dpjk1eyh0/image/upload/v1696726717/vip_i4lajn.png'
+              cardName = 'Referidor Premium'
+              benefits = { ['Reciben un 30% de comisión por cada tarjeta adquirida por sus referidos.', '10% de comisión adicional por cada tarjeta adquirida por referidos de sus referidos directos.' ] }
+              precio = { 100 }
+              href='/payments?t=premium'/>
 
           </div>
 

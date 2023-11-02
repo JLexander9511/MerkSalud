@@ -1,3 +1,4 @@
+import { goIdle } from '@/store/app';
 import { startLogout } from '@/store/auth';
 import { Menu, MenuItem, MenuDivider } from '@szhsin/react-menu';
 import '@szhsin/react-menu/dist/index.css';
@@ -16,6 +17,7 @@ function UserMenu() {
 
     const logout = () => {
         dispatch( startLogout() )
+        dispatch( goIdle() )
         setTimeout(() => {
             router.push('/admin')
         }, 1000);

@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { startLoginWithEmailPassword } from '@/store/auth';
 import { toast } from 'react-toastify';
+import { goIdle } from '@/store/app';
 
 function AdminLForm() {
 
@@ -27,6 +28,7 @@ function AdminLForm() {
 
   useEffect(() => {
     (status == 'authenticated') && router.push('/admin/dashboard')
+    dispatch( goIdle() )
   }, [])
   
 

@@ -7,9 +7,6 @@ import Link from 'next/link';
 import { useState } from 'react'
 import { NavLink } from './NavLink';
 import { useDispatch, useSelector } from 'react-redux';
-import { startLogout } from '@/store/auth/thunks'
-
-
 
 function Menu() {
   const dispatch = useDispatch()
@@ -61,7 +58,6 @@ const AuthenticatedBtn =
         {
           notAuthenticatedBtn || AuthenticatedBtn
         }
-        <button onClick={() => dispatch( startLogout() )}>LOGOUT</button>
       </div>
     )
   }

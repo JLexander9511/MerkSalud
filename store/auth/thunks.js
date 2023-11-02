@@ -1,18 +1,12 @@
-import { loginWithEmailPassword, logoutFirebase } from "@/firebase"
+import { FirebaseApp, loginWithEmailPassword, logoutFirebase } from "@/firebase"
 import { checkingCredentials, logout, login, authenticate } from "./authSlice"
 import { getFirestore, doc, getDoc } from "firebase/firestore";
 
 const db = getFirestore();
 
-export const checkingAuthentication = (email, password) => {
+export const checkingAuthentication = () => {
     return async (dispatch) => {
         dispatch( checkingCredentials() )
-    }
-}
-
-export const auth = () => {
-    return async (dispatch) => {
-        dispatch (authenticate())
     }
 }
 
@@ -57,3 +51,4 @@ export const startLogout = () => {
         dispatch( logout() )
     }
 }
+

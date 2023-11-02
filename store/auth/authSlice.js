@@ -41,8 +41,7 @@ export const authSlice = createSlice({
             state.role= null
             state.errorMessage= payload
         },
-        
     }
 });
 
-export const { checkingCredentials, login, logout, authenticate } = authSlice.actions;
+export const { checkingCredentials, login, logout } = authSlice.actions;

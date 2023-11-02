@@ -1,11 +1,21 @@
 "use client";
 
 import Image from 'next/image'
-import { Fjalla_One } from 'next/font/google'
-import PaymentForm from './components/PaymentForm'
-import { useScreenSize } from '@/hooks';
 import Link from 'next/link';
+import PaymentForm from './components/PaymentForm'
 import BackButton from './components/BackButton';
+import WithState from '@/app/validators/WithState';
+import { useScreenSize } from '@/hooks';
+import { useSearchParams } from 'next/navigation'
+
+import { Fjalla_One } from 'next/font/google'
+import { ToastContainer } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
+import { BallBeat } from 'react-pure-loaders';
+
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import { useState } from 'react';
+
 
 const fJalla = Fjalla_One({
   weight: ['400'],
@@ -15,9 +25,11 @@ const fJalla = Fjalla_One({
   variable: '--font-montserrat',
 })
 
-export default function Page( { params } ) {
+export default function Page() {
 
   const { screenType } = useScreenSize();
+  const t = '' || useSearchParams().get('t');
+  const [type, setType] = useState(t)
 
   return (
     <section className='flex flex-col items-center justify-center w-full pt-20'>
@@ -37,9 +49,21 @@ export default function Page( { params } ) {
           <div className='text-center flex flex-col items-center'>
             <span className='font-bold text-xl mt-8' style={{color: 'rgba(74, 74, 74, 1)'}}>Datos de Pago Móvil</span>
             <span className='text-xl' style={{color: 'rgba(74, 74, 74, 1)'}}>Bancamiga J-40512054-1 04145840686</span>
+            <span className='text-xl font-bold' style={{ color: 'rgba(9, 26, 157, 1)'}}> {(type == 'green') ? 'Tarjeta Green seleccionada |' : (type == 'blue') ? 'Tarjeta Blue seleccionada |' : (type == 'black') ? 'Tarjeta Black seleccionada |' : (type == 'premium') ? 'Tarjeta Premium seleccionada |' : 'Seleccione una opcion'} {(type == 'green') ? 'Monto a pagar: 10$' : (type == 'blue') ? 'Monto a pagar: 60$' : (type == 'black') ? 'Monto a pagar: 70$' : (type == 'premium') ? 'Monto a pagar: 100$' : '' }</span>
             <span className='text-xl font-bold' style={{ color: 'rgba(9, 26, 157, 1)'}}>Tasa de cambio del día del BCV</span>
           </div>
-          <PaymentForm/>
+
+          <div className='mt-4 rounded-xl overflow-hidden flex items-stretch border-2 border-slate-400'>
+            <button className='p-2 bg-green-600 w-20 hover:bg-green-700 ease-in-out duration-300' onClick={() => setType('green')}>Green {(type == 'green') && <CheckCircleIcon sx={{width: 20, color: 'white'}}/>}</button>
+            <button className='p-2 bg-blue-500 w-20 hover:bg-blue-600 ease-in-out duration-300' onClick={() => setType('blue')}>Blue {(type == 'blue') && <CheckCircleIcon sx={{width: 20, color: 'white'}}/>}</button>
+            <button className='p-2 bg-black text-white w-20 hover:bg-slate-700 ease-in-out duration-300' onClick={() => setType('black')}>Black {(type == 'black') && <CheckCircleIcon sx={{width: 20, color: 'white'}}/>}</button>
+            <button className='p-2 bg-amber-500 w-28 hover:bg-amber-600 ease-in-out duration-300' onClick={() => setType('premium')}>Premium {(type == 'premium') && <CheckCircleIcon sx={{width: 20, color: 'white'}}/>}</button>
+          </div>
+
+          <WithState loader={<BallBeat color={'#123abc'} loading={true}/>}>
+            <PaymentForm type={type}/>
+          </WithState>
+
           <div className='w-full border-slate-400 my-8' style={{borderBottomWidth:1}}></div>
 
           <div className={`${( screenType == 'SmartPhone' ) ? 'flex flex-col items-center' : 'flex items-center justify-center px-8' }`}>
@@ -108,6 +132,8 @@ export default function Page( { params } ) {
         </figure>
           
         <BackButton/>
+
+        <ToastContainer/>
     </section>
   )
 }

@@ -1,10 +1,12 @@
 "use client";
 
+import { BallBeat } from 'react-pure-loaders';
 import UserMenu from './UserMenu';
 // import { useEffect } from 'react';
 // import { useRouter } from 'next/navigation';
 // import { useSelector } from 'react-redux';
 import WithState from "@/app/validators/WithState";
+import AppStatusIndicator from './AppStatusIndicator';
 
 function NavBar() {
 
@@ -21,7 +23,8 @@ function NavBar() {
     <nav 
       className="bg-black p-4 flex items-center justify-end fixed w-screen"
       style={{height:60, backgroundColor:'rgb(65,93,153)'}}>
-      <WithState>
+      <WithState loader={<BallBeat color={'#123abc'} loading={true}/>}>
+        <AppStatusIndicator/>
         <UserMenu/>
       </WithState>  
     </nav>

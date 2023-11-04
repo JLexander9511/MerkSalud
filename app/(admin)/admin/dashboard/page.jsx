@@ -15,7 +15,7 @@ import { goIdle } from "@/store/app";
 
   useLayoutEffect(() => {
     (status != 'authenticated') && router.push('/admin')
-    dispatch( goIdle() )
+    dispatch(goIdle())
   }, [])
 
   

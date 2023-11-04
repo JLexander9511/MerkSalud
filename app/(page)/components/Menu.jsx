@@ -6,44 +6,17 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react'
 import { NavLink } from './NavLink';
-import { useDispatch, useSelector } from 'react-redux';
+
+import WithState from '@/app/validators/WithState';
+import UserBtn from './UserBtn';
+import { BallBeat } from 'react-pure-loaders';
 
 function Menu() {
-  const dispatch = useDispatch()
+  
 
   const {screenType} = useScreenSize();
 
   const [isOpen, setOpen] = useState(false)
-
-  const {errorMessage, status} = useSelector((state) => state.auth)
-
-    const notAuthenticatedBtn = 
-    (status == 'not-authenticated') && (
-    <Link
-      href='/login'
-      className = {`${(screenType == 'Desktop' ? 'p-2 rounded-full bg-blue-900 text-white flex items-center text-lg font-medium me-2' : 'p-2 rounded-full bg-transparent text-white flex items-center text-lg font-medium border-2 me-2' )}`}>
-        <Image
-        src='https://res.cloudinary.com/dpjk1eyh0/image/upload/v1695050220/sign-in_sncxyd.png'
-          width={25}
-          height={25}
-          alt='user icon'
-          className='mx-2'/>
-        Iniciar Sesion
-    </Link>)
-
-const AuthenticatedBtn = 
-(status == 'authenticated') && (
-  <Link 
-    href='/' 
-    className = {`${(screenType == 'Desktop' ? 'p-2 rounded-full bg-blue-900 text-white flex items-center text-lg font-medium' : 'p-2 rounded-full bg-transparent text-white flex items-center text-lg font-medium border-2' )}`}>
-      <Image
-      src='https://res.cloudinary.com/dpjk1eyh0/image/upload/v1695046927/icon_jq3egz.png'
-        width={30}
-        height={30}
-        alt='user icon'
-        className='me-2'/>
-      Panel de control
-      </Link>)
 
   if (screenType == 'Desktop') {
     return (
@@ -55,9 +28,10 @@ const AuthenticatedBtn =
         <NavLink href="/questions">Preguntas</NavLink>
         <NavLink href="/contact">Contacto</NavLink>
 
-        {
-          notAuthenticatedBtn || AuthenticatedBtn
-        }
+      {/* <WithState loader={<BallBeat color={'#123abc'} loading={true}/>}>
+          <UserBtn/>
+      </WithState> */}
+        
       </div>
     )
   }

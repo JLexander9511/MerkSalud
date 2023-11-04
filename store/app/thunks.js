@@ -37,7 +37,22 @@ export const getRefererData = async (refNumber) => {
     } else {
         return null
     }
-}     
+}
+
+const sendEmail = async (userEmail, userName) => {
+    const res = await fetch('/api/requestReceivedEmail',{
+      body: JSON.stringify({
+        userEmail,
+        userName,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+      method: "POST",
+    })
+
+    return await res.json()
+}
 
 export const processRequest = (data) => {
     return async (dispatch) => {
@@ -54,7 +69,7 @@ export const processRequest = (data) => {
                 refObject = { refUid: data.refNumber, refName, refType }
             } 
         }
-        console.log(refObject)
+
         try {
             await setDoc(doc(db, "requests", id), {
                 id,
@@ -69,6 +84,18 @@ export const processRequest = (data) => {
                 date: data.fecha,
                 type: data.type
             })
+
+            //ENVIAR CORREO A NUEVO USUARIO 
+
+            dispatch( emailSending() )
+            const userName = `${data.nombre} ${data.apellido}`;
+            const newRequestEmail = await sendEmail(data.email, userName)
+
+            if(!newRequestEmail.ok) {
+                dispatch( emailNotSent() )
+            }
+        
+            dispatch( emailSent() )
         
             dispatch( processFinishedSuccessfully('Su solicitud ha sido procesada exitosamente') );
 
@@ -171,24 +198,6 @@ export const deleteDocument = (id) => {
             dispatch(processFinishedUnsuccessfully(error.message))
         }
     }
-}
-
-const sendEmail = async (userEmail, userName, password, refLink) => {
-
-    const res = await fetch('/api/email',{
-      body: JSON.stringify({
-        userEmail,
-        userName,
-        password,
-        refLink
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-      method: "POST",
-    })
-
-    return await res.json()
 }
 
 //AGREGAR UN USUARIO
@@ -407,19 +416,6 @@ export const addRegularUser = (data) => {
             
             await signInWithEmailAndPassword(FirebaseAuth, 'japl.uba.1995@gmail.com', 'Access1110');
 
-            //ENVIAR CORREO A NUEVO USUARIO 
-
-            dispatch( emailSending() )
-
-            const referralLink = `merksalud.com/payments?ref=${id}`;
-
-            const newUserEmail = await sendEmail(data.email, data.displayName, psswd, referralLink)
-
-            if(!newUserEmail.ok) {
-                dispatch( emailNotSent() )
-            }
-        
-            dispatch( emailSent() )
 
             //ELIMINAR SOLICITUD AL SER EXITOSA
             

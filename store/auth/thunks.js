@@ -1,6 +1,7 @@
 import { FirebaseApp, loginWithEmailPassword, logoutFirebase } from "@/firebase"
 import { checkingCredentials, logout, login, authenticate } from "./authSlice"
-import { getFirestore, doc, getDoc } from "firebase/firestore";
+import { getFirestore, doc, getDoc, query, where, getDocs, collection } from "firebase/firestore";
+import { goIdle, processFinishedSuccessfully, processFinishedUnsuccessfully, startProcess } from "../app";
 
 const db = getFirestore();
 
@@ -13,33 +14,43 @@ export const checkingAuthentication = () => {
 export const startLoginWithEmailPassword = ({ email, password }) => {
     return async ( dispatch ) => {
 
-        dispatch( checkingCredentials() );
+        try {
+            dispatch( checkingCredentials() );
+            dispatch( startProcess() )
 
-        //CHEQUEAR USUARIO POR MEDIO DE AUTHENTICATOR
+            //CHEQUEAR USUARIO POR MEDIO DE AUTHENTICATOR
 
         const resp = await loginWithEmailPassword({ email, password });
 
-        if(!resp.ok) return dispatch( logout(resp.errorMessage) );
-
+        if(!resp.ok) {
+            dispatch( logout(resp.errorMessage) );
+            dispatch( processFinishedUnsuccessfully(resp.errorMessage) )
+        } 
         //CHEQUEAR ROL
 
-        const docSnap = await getDoc( doc(db, "users", resp.uid) );
+        const q = query(collection(db, "users"), where("displayName", "==", resp.displayName));
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((doc) => {
+            if(doc.data().role.admin){
+
+                        for(var keyName in doc.data().role){
+                            resp.role = keyName
+                        }
         
-        if(docSnap.exists()){
+                        resp.displayName = doc.data().displayName
+        
+                        dispatch( processFinishedSuccessfully('Bienvenido Admin!') )
+                        dispatch( login(resp) );
+                        
+                    } else {
+                        dispatch( processFinishedUnsuccessfully('No tiene los atributos para acceder a este panel de control.') )
+                        dispatch( logout('No tiene los atributos para acceder a este panel de control.') );
+                    }
+          });
 
-            if(docSnap.data().role.admin){
-
-                for(var keyName in docSnap.data().role){
-                    resp.role = keyName
-                }
-
-                resp.displayName = docSnap.data().displayName
-
-                dispatch( login(resp) );
-                
-            }
-        } else {
-            dispatch( logout(resp.errorMessage) );
+        } catch (error) {
+            dispatch( processFinishedUnsuccessfully('Ocurrio un error!') )
+            dispatch( logout('Ocurrio un error!') );
         }
 
     }

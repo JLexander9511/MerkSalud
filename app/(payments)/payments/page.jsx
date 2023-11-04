@@ -14,7 +14,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { BallBeat } from 'react-pure-loaders';
 
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 
 
 const fJalla = Fjalla_One({
@@ -28,7 +28,7 @@ const fJalla = Fjalla_One({
 export default function Page() {
 
   const { screenType } = useScreenSize();
-  const t = '' || useSearchParams().get('t');
+  const t = useSearchParams().get('t') ||  '';
   const [type, setType] = useState(t)
 
   return (

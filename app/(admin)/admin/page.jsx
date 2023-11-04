@@ -3,13 +3,9 @@
 import Image from 'next/image'
 import { ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
-import { Provider } from 'react-redux';
-import { PersistGate } from 'redux-persist/lib/integration/react';
-import { persistor, store } from '@/store/store';
 import AdminLForm from './components/AdminLForm';
 import { BallBeat } from 'react-pure-loaders';
 import WithState from '@/app/validators/WithState';
-
 
 function Page() {
 

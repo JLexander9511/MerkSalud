@@ -8,23 +8,20 @@ import { toast } from 'react-toastify';
 import formatDate from '@/helpers/formatDate';
 
 function PaymentForm({type}) {
-
   const { register, handleSubmit, formState: { errors }, setValue, reset } = useForm();
   const {status, message} = useSelector((state) => state.app);
-
+  const ref = useSearchParams().get('ref') || '';
   const isAuthenticating = useMemo( () => status === 'processing', [status])
 
   const dispatch = useDispatch();
 
-  const ref = (!useSearchParams().get('ref')) ? '' : useSearchParams().get('ref')
-
   useEffect(() => {
     setValue('refNumber', ref)
     dispatch( goIdle() )
-    
   }, [])
 
   useEffect(() => {
+    
     (status == 'success') && 
       toast.success(message, {
         position: toast.POSITION.TOP_CENTER

@@ -1,6 +1,6 @@
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
-import { useEffect, useMemo } from 'react';
+import { useEffect, useLayoutEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { startLoginWithEmailPassword } from '@/store/auth';
@@ -14,6 +14,8 @@ function AdminLForm() {
     const router = useRouter();
 
     const {errorMessage, status} = useSelector((state) => state.auth)
+    const {status: appStatus, message} = useSelector((state) => state.app);
+
     const isAuthenticating = useMemo( () => status === 'checking', [status])
 
   
@@ -23,10 +25,13 @@ function AdminLForm() {
   }
 
   const onSubmit = ({email, password}) => {
-    dispatch(startLoginWithEmailPassword({email, password}))
+    dispatch(startLoginWithEmailPassword({email, password}));
+    setTimeout(() => {
+      dispatch( goIdle() )
+    }, 3000);
   };
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     (status == 'authenticated') && router.push('/admin/dashboard')
     dispatch( goIdle() )
   }, [])
@@ -34,7 +39,7 @@ function AdminLForm() {
 
   useEffect(() => {
 
-    if(status == 'authenticated'){
+    if(appStatus == 'success'){
         setTimeout(() => {
             router.push('/admin/dashboard/')
         }, 5000);
@@ -44,12 +49,14 @@ function AdminLForm() {
         
     }   
 
-    errorMessage &&
-        toast.error(errorMsgHandle[errorMessage] || errorMessage, {
-            position: toast.POSITION.TOP_LEFT
-        });
+    if(appStatus == 'error'){
+      errorMessage &&
+      toast.error(errorMsgHandle[errorMessage] || errorMessage, {
+          position: toast.POSITION.TOP_LEFT
+      });
+    }
     
-  }, [status])
+  }, [appStatus])
 
   return (
     <form 
@@ -67,15 +74,14 @@ function AdminLForm() {
             className='mt-4 rounded-lg bg-slate-100 p-4 w-full outline-none border-b-2 border-green-600' 
             style={{width: '125%'}}/>
         {errors.password?.type === 'required' && <p className='text-red-600 font-medium mt-2'>Ingrese la contraseña</p>}
-
         <button 
           type='submit' 
           className='mt-8 w-full p-4 bg-green-500 rounded-xl text-white font-bold text-xl disabled:bg-slate-500'
-          disabled={ isAuthenticating }>
+          >
             Entrar
         </button>
 
-    </form>
+    </form>//disabled={ isAuthenticating }
   )
 }
 
